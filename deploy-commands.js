@@ -3,9 +3,7 @@ const { REST } = require('@discordjs/rest');
 const { clientId, guildId, token } = require('./config.json');
 
 const commands = [
-    new SlashCommandBuilder().setName('ping').setDescription('Replies with pong!'),
-    new SlashCommandBuilder().setName('server').setDescription('Replies with server info!'),
-    new SlashCommandBuilder().setName('user').setDescription('Replies with user info!'),
+    new SlashCommandBuilder().setName('cqtimer').setDescription('shows when next Minionmaster Conquest Cycle is going to end.'),
 ]
     .map(command => command.toJSON());
 

@@ -1,0 +1,23 @@
+{
+  "name": "minionmasters-guild-conquest-discord-bot",
+  "version": "1.0.0",
+  "description": "minionmasters-guild-conquest-discord-bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raDiesle/minionmasters-guild-conquest-discord-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raDiesle/minionmasters-guild-conquest-discord-bot/issues"
+  },
+  "homepage": "https://github.com/raDiesle/minionmasters-guild-conquest-discord-bot#readme",
+  "dependencies": {
+    "@discordjs/rest": "^1.0.1",
+    "discord.js": "^14.1.2"
+  }
+}

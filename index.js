@@ -1,6 +1,6 @@
 // Require the necessary discord.js classes
 const { Client, GatewayIntentBits } = require('discord.js');
-const { token } = require('./config.json');
+
 const {calculateEndTime} = require("./countdown");
 
 
@@ -10,7 +10,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 // When the client is ready, run this code (only once)
 client.once('ready', async () => {
     console.log('Ready!');
-
+    client.user.setActivity('.', {type: 'WATCHING'});
 });
 
 client.on('interactionCreate', async interaction => {
@@ -28,4 +28,5 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
+const token = process.env.token;
 client.login(token);

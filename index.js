@@ -23,8 +23,8 @@ client.on('interactionCreate', async interaction => {
 
         setInterval(async () => {
             // client.channels.cache.get("916642101989617684").send("!stats");
-            message.edit(calculateEndTime());
-        }, 1000);
+            message.edit(calculateEndTime() + "(updated: "+new Date().toISOString()+ ")");
+        }, 1000 * 60);
     }
 });
 

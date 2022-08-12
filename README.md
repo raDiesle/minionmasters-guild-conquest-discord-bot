@@ -14,6 +14,11 @@ minionmasters-guild-conquest-discord-bot
 - go to deploy tab. the github code repo should appear ( requires sometimes reload of page)
 - on bottom of page, apply manual apply
 
+## See logs
+- install heroku cli
+- heroku  logs --app minionmasters-discord-bot --tail
+
+
 # files
 ## `deploy-commands.js` 
 - execute only on local machine so register listeners for the discord bot such as available chat commands

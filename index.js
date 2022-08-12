@@ -3,6 +3,16 @@ const { Client, GatewayIntentBits } = require('discord.js');
 
 const {calculateEndTime} = require("./countdown");
 
+/**
+ * If not available from e.g. heroku, its read from .env file instead
+ * token of your discord bot. starts with MTA
+ * */
+if(process.env.token){
+    require('dotenv').config();
+}
+
+const token = process.env.token;
+console.warn(token);
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -19,14 +29,15 @@ client.on('interactionCreate', async interaction => {
     const { commandName } = interaction;
 
     if (commandName === 'cqtimer') {
-        const message = await interaction.reply({isMessage: true, content: calculateEndTime(),  fetchReply: true});
+        const message = await interaction.reply({isMessage: true, content: calculateEndTime().asString,  fetchReply: true});
 
+        const SEQUENCE_TO_UPDATE = 1000 * 60;
         setInterval(async () => {
-            // client.channels.cache.get("916642101989617684").send("!stats");
-            message.edit(calculateEndTime() + "(updated: "+new Date().toISOString()+ ")");
-        }, 1000 * 60);
+            const remainingTimeString = calculateEndTime().asString;
+            message.edit(remainingTimeString);
+        }, SEQUENCE_TO_UPDATE );
     }
 });
 
-const token = process.env.token;
+
 client.login(token);

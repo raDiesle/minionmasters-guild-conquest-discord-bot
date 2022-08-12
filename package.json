@@ -4,7 +4,8 @@
   "description": "minionmasters-guild-conquest-discord-bot",
   "main": "index.js",
   "scripts": {
-    "start" : "node index.js",
+    "start": "node index.js",
+    "registerCommands" : "node deploy-commands.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,8 @@
   "homepage": "https://github.com/raDiesle/minionmasters-guild-conquest-discord-bot#readme",
   "dependencies": {
     "@discordjs/rest": "^1.0.1",
-    "discord.js": "^14.1.2"
+    "discord.js": "^14.1.2",
+    "dotenv": "^16.0.1",
+    "luxon": "^3.0.1"
   }
 }

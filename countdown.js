@@ -4,7 +4,8 @@ const calculateEndTime = () => {
     const DATE_TO_ALIGN_CYCLE  = new Date(2022, 0, 21, 7,0,0,0);
     const NOW = new Date();
 
-    const diffSinceReferenceConquestFromPast = NOW.getTime() + (NOW.getTimezoneOffset() * 1000 * 60) - DATE_TO_ALIGN_CYCLE.getTime();
+    let timezoneOffset = 0; //NOW.getTimezoneOffset() * 1000 * 60;
+    const diffSinceReferenceConquestFromPast = NOW.getTime() + timezoneOffset - DATE_TO_ALIGN_CYCLE.getTime();
     const remainingTimeInMsAbsolute = diffSinceReferenceConquestFromPast - CYCLE_TIME_IN_MS;
     const remainingTimeInMs = CYCLE_TIME_IN_MS - (remainingTimeInMsAbsolute % CYCLE_TIME_IN_MS); //
 
@@ -22,7 +23,10 @@ const calculateEndTime = () => {
                 return "Hurry up!";
             case days === 0:
                 return "Last change for conquest!"
+            default:
+                return "";
         }
+        return "";
     }
     const asString = `${days}d ${hours}h ${minutes}m` + getRemainingMessage();
 

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "registerCommands" : "node deploy-commands.js",
+    "registerCommands": "node deploy-commands.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +23,8 @@
     "discord.js": "^14.1.2",
     "dotenv": "^16.0.1",
     "luxon": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.0.0"
   }
 }

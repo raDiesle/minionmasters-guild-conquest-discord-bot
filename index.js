@@ -7,7 +7,7 @@ const {calculateEndTime} = require("./countdown");
  * If not available from e.g. heroku, its read from .env file instead
  * token of your discord bot. starts with MTA
  * */
-if(process.env.token){
+if(typeof process.env.token === "undefined"){
     require('dotenv').config();
 }
 
@@ -29,7 +29,7 @@ client.on('interactionCreate', async interaction => {
     const { commandName } = interaction;
 
     if (commandName === 'cqtimer') {
-        const message = await interaction.reply({isMessage: true, content: calculateEndTime().asString,  fetchReply: true});
+        const message = await interaction.reply({isMessage: true, content: calculateEndTime().asString ,  fetchReply: true});
 
         const SEQUENCE_TO_UPDATE = 1000 * 60;
         setInterval(async () => {

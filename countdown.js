@@ -1,11 +1,12 @@
 const calculateEndTime = () => {
 
     const CYCLE_TIME_IN_MS = 1000*60*60*24*3;
-    const DATE_TO_ALIGN_CYCLE  = new Date(2022, 0, 21, 7,0,0,0);
+    const DATE_TO_ALIGN_CYCLE  = new Date(2022, 0, 21, 5,0,0,0); // was 7 hours in webapp
     const NOW = new Date();
 
-    let timezoneOffset = 0; //NOW.getTimezoneOffset() * 1000 * 60;
-    const diffSinceReferenceConquestFromPast = NOW.getTime() + timezoneOffset - DATE_TO_ALIGN_CYCLE.getTime();
+    const timezoneOffset = NOW.getTimezoneOffset() *  60 * 1000;
+    console.info(`timezoneOffset: ${timezoneOffset}`);
+    const diffSinceReferenceConquestFromPast = NOW.getTime() + timezoneOffset - DATE_TO_ALIGN_CYCLE.getTime() + timezoneOffset;
     const remainingTimeInMsAbsolute = diffSinceReferenceConquestFromPast - CYCLE_TIME_IN_MS;
     const remainingTimeInMs = CYCLE_TIME_IN_MS - (remainingTimeInMsAbsolute % CYCLE_TIME_IN_MS); //
 
@@ -28,7 +29,7 @@ const calculateEndTime = () => {
         }
         return "";
     }
-    const asString = `${days}d ${hours}h ${minutes}m` + getRemainingMessage();
+    const asString = `${days}d ${hours}h ${minutes}m` + getRemainingMessage() +"_";
 
     return {asString, days, hours, minutes};
 };

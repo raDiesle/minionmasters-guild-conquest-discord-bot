@@ -12,7 +12,6 @@ if(typeof process.env.token === "undefined"){
 }
 
 const token = process.env.token;
-console.warn(token);
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -21,6 +20,32 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 client.once('ready', async () => {
     console.log('Ready!');
     client.user.setActivity('.', {type: 'WATCHING'});
+
+    const guilds = await client.guilds.fetch();
+    guilds.forEach(async (guild) => {
+        console.log(" - guild: " + guild.name)
+
+        // List all channels
+        const guildFetch = await guild.fetch();
+
+        const channels = await guildFetch.channels.fetch();
+
+
+        // filter(c => c.guild &&  c.type === 4).
+        channels.filter(c => c.guild &&  c.type === 0).forEach(async(channel) => {
+            try{
+
+            console.log(` -- ${channel.name} (${channel.type}) - ${channel.id}`)
+
+            const ch = await client.channels.fetch(channel.id);
+            ch.send("Bot Registered");
+            }catch(e){
+                console.error(e);
+            }
+        })
+    })
+
+
 });
 
 client.on('interactionCreate', async interaction => {
@@ -29,15 +54,30 @@ client.on('interactionCreate', async interaction => {
     const { commandName } = interaction;
 
     if (commandName === 'cqtimer') {
-        const message = await interaction.reply({isMessage: true, content: calculateEndTime().asString ,  fetchReply: true});
+        const message = await interaction.reply({isMessage: true, content: calculateEndTime().result ,  fetchReply: true});
 
-        const SEQUENCE_TO_UPDATE = 1000 * 60;
-        setInterval(async () => {
-            const remainingTimeString = calculateEndTime().asString;
-            message.edit(remainingTimeString);
-        }, SEQUENCE_TO_UPDATE );
+
     }
 });
 
+client.on("message", () => {
+    const SEQUENCE_TO_UPDATE = 1000 * 60;
+
+
+   /* setInterval(async () => {
+        console.log("check cycle time");
+        const guildList = client.guilds.array();
+        try {
+            guildList.forEach(guild => guild.defaultChannel.send("messageToSend"));
+
+            if(calculateEndTime().isRestarted){
+                guildList.forEach(guild => guild.defaultChannel.send("new cycle started"));
+            }
+        } catch (err) {
+            console.log("Could not send message to " + guild.name);
+        }
+
+    }, SEQUENCE_TO_UPDATE );*/
+});
 
 client.login(token);

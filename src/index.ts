@@ -1,8 +1,6 @@
 // Require the necessary discord.js classes
 const { Client, GatewayIntentBits } = require('discord.js');
-
-const {calculateEndTime} = require("./countdown");
-
+const {getCycleTimeContents : getCycleTimeContentsFn} = require("./current-cycle-time/cycle-time-contents")
 /**
  * If not available from e.g. heroku, its read from .env file instead
  * token of your discord bot. starts with MTA
@@ -18,17 +16,13 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 // When the client is ready, run this code (only once)
 client.once('ready', async () => {
-    console.log('Ready!');
+    console.log('Ready...');
     client.user.setActivity('.', {type: 'WATCHING'});
 
     if (!client.user || !client.application) {
         return;
     }
     console.log(`${client.user.username} is online`);
-
-
-
-
 });
 
 client.on('interactionCreate', async interaction => {
@@ -37,15 +31,14 @@ client.on('interactionCreate', async interaction => {
     const { commandName } = interaction;
 
     if (commandName === 'cqtimer') {
-        const message = await interaction.reply({isMessage: true, content: calculateEndTime().result ,  fetchReply: true});
 
-
+        // {isMessage: true, content: getCycleTimeContentsFn(),  fetchReply: true}
+        const message = await interaction.reply({ embeds: [getCycleTimeContentsFn()] });
     }
 });
 
 client.on("message", () => {
     const SEQUENCE_TO_UPDATE = 1000 * 60;
-
 
    /* setInterval(async () => {
         console.log("check cycle time");

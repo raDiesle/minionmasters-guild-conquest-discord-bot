@@ -1,4 +1,3 @@
-import {bold, time} from "discord.js";
 
 const {DateTime} = require("luxon");
 
@@ -20,7 +19,7 @@ function getCurrentCycle() {
     return {currentCycleStartTime: currentCycleStartTime, currentCycleCount: countOfCycle};
 }
 
-const calculateEndTime = () => {
+function calculateCycleValues  () {
 
     const NOW = DateTime.utc();
 
@@ -28,16 +27,14 @@ const calculateEndTime = () => {
 
     const nextCycleCount = currentCycleCount + 1;
     const nextCycleEnd = nextOccurenceFn(currentCycleStartTime);
-    const nextCycleEndRelativeDiscordString = time(nextCycleEnd.toMillis() / 1000, "R");// `<t:${nextCycleEnd.toMillis() / 1000}:R>`;
 
-    const result = `\n...${bold("Cycle")} ${nextCycleCount} ends ${nextCycleEndRelativeDiscordString}`;
 
     const timeLeft = NOW.diff(nextCycleEnd);
     const isRestarted = [timeLeft.days, timeLeft.hours, timeLeft.minutes];
 
-    return {isRestarted,result};
+    return {isRestarted,nextCycleCount, nextCycleEnd};
 };
 
 module.exports = {
-    calculateEndTime
+    calculateCycleValues
 }

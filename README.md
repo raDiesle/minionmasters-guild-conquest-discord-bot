@@ -2,17 +2,23 @@
 minionmasters-guild-conquest-discord-bot
 
 # how to run on local
+## Prepare
 - follow `prepare environment variables for local machine`
-- for registering new commands, execute
+## Only on changed API
+- for registering new commands, execute 
    `node deploy-commands.js`
+## On every change of commands to be executed
+- make sure to have only one instance running at the same time.
+- to disable on heroku, stop the `worker node index.js`
 - for running execution server, make sure its not running in the cloud at the same time and
-   `node index.js`
+   `npm start`
 
 # how to run execution server on heroku
 - make sure no server is running on local machine
 - login to heroku
 - go to deploy tab. the github code repo should appear ( requires sometimes reload of page)
 - on bottom of page, apply manual apply
+- make sure the `worker node index.js` is running
 
 ## See logs
 - install heroku cli
@@ -40,3 +46,9 @@ minionmasters-guild-conquest-discord-bot
   token=MTA--rest to take from discord developer
   }
 ```
+
+
+
+# Helpful links
+- developer discord.js docu https://discord.js.org/
+- https://lingojam.com/DiscordFonts

@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, Routes } = require('discord.js');
 const { REST } = require('@discordjs/rest');
-const { clientId, guildId, token } = require('./config.json');
+const { clientId, guildId, token } = require('config.json');
 
 const commands = [
     new SlashCommandBuilder().setName('cqtimer').setDescription('shows when next Minionmaster Conquest Cycle is going to end.'),

@@ -1,28 +1,53 @@
-import {bold, EmbedBuilder, time} from "discord.js";
+import {
+    ActionRowBuilder,
+    bold,
+    ButtonBuilder,
+    ButtonStyle,
+    EmbedBuilder,
+    MessageActionRowComponentBuilder,
+    time
+} from "discord.js";
 
 function formatCycleContents({nextCycleCount, nextCycleEnd}){
 
     const nextCycleEndRelativeDiscordString = time(nextCycleEnd.toMillis() / 1000, "R");// `<t:${nextCycleEnd.toMillis() / 1000}:R>`;
-    const result = ` ${nextCycleEndRelativeDiscordString}`;
+    const timeString = time(nextCycleEnd.toJSDate(), "F");
+    const result = ` ${nextCycleEndRelativeDiscordString}  ${timeString}`;
+
+
+    const buttonReportCqDone = new ButtonBuilder()
+        .setCustomId('report')
+        .setLabel('Manage')
+        .setStyle(ButtonStyle.Primary)
+    //    .setEmoji('123456789012345678')
+    ;
 
     const embedResult = new EmbedBuilder()
         .setColor(0x0099FF)
-        .setTitle(`Conquest Cycle ${nextCycleCount}`)
+        .setTitle(`Conquest Cycle `)
         //.setURL('https://discord.js.org/')
         //.setAuthor({ name: 'Some name', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
-        .setDescription("Time to conquest")
+        .setDescription(`Get ready to rumble!`)
         //.setThumbnail('https://i.imgur.com/AfFp7pu.png')
         .addFields(
-            { name: `${bold("Cycle")} ends`, value: result },
+            { name: `${bold("End")}`, value: result })
        //     { name: '\u200B', value: '\u200B' },
          //   { name: 'Inline field title', value: 'Some value here', inline: true },
           //  { name: 'Inline field title', value: 'Some value here', inline: true },
-        )
+        //)
         //.addFields({ name: 'Inline field title', value: 'Some value here', inline: true })
         //.setImage('https://i.imgur.com/AfFp7pu.png')
-        .setTimestamp()
-        .setFooter({ text: 'Keep Bridge Baddies great!'});
-    return embedResult;
+        // .setTimestamp()
+
+        // .setFooter({ text: 'Keep Bridge Baddies great!'});
+
+
+    const row = new ActionRowBuilder<MessageActionRowComponentBuilder>()
+        .addComponents(
+           buttonReportCqDone
+        );
+
+    return { embeds: [embedResult], components : [row],  ephemeral: false };
 }
 
 module.exports = {

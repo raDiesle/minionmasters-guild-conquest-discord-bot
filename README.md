@@ -51,4 +51,5 @@ minionmasters-guild-conquest-discord-bot
 
 # Helpful links
 - developer discord.js docu https://discord.js.org/
+- https://autocode.com/tools/discord/embed-builder/
 - https://lingojam.com/DiscordFonts

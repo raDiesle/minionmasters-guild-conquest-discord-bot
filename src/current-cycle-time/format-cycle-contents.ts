@@ -3,7 +3,7 @@ import {
     bold,
     ButtonBuilder,
     ButtonStyle,
-    EmbedBuilder,
+    EmbedBuilder, formatEmoji,
     MessageActionRowComponentBuilder,
     time
 } from "discord.js";
@@ -24,13 +24,14 @@ function formatCycleContents({nextCycleCount, nextCycleEnd}){
 
     const embedResult = new EmbedBuilder()
         .setColor(0x0099FF)
-        .setTitle(`Conquest Cycle `)
+        .setTitle(`Conquest Cycle ${bold(nextCycleCount)}`)
         //.setURL('https://discord.js.org/')
         //.setAuthor({ name: 'Some name', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
-        .setDescription(`Get ready to rumble!`)
+        .setDescription(`🛎️ ${result} 🛎️`)
+
         //.setThumbnail('https://i.imgur.com/AfFp7pu.png')
-        .addFields(
-            { name: `${bold("End")}`, value: result })
+        //.addFields(
+//            { name: ``, value: result })
        //     { name: '\u200B', value: '\u200B' },
          //   { name: 'Inline field title', value: 'Some value here', inline: true },
           //  { name: 'Inline field title', value: 'Some value here', inline: true },

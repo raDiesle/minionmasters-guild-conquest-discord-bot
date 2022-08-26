@@ -52,10 +52,15 @@ client.on('interactionCreate', async (interaction : BaseInteraction)  => {
         const { commandName} = interaction as MessageInteraction;
         if (commandName === 'cqtimer') {
             // {isMessage: true, content: getCycleTimeContentsFn(),  fetchReply: true}
-            const response = await interaction.reply(getCycleTimeContentsFn());
+            const response = await interaction.reply(getCycleTimeContentsFn({isWithActions: true}));
+            return response;
+        }
+        if (commandName === 'cq') {
+            const response = await interaction.reply(getCycleTimeContentsFn({isWithActions: false}));
             return response;
         }
     }
+
     if(interaction.isButton()){
         const {customId} = interaction as ButtonInteraction;
         if(customId === "report"){

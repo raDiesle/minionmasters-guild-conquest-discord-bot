@@ -8,7 +8,7 @@ import {
     time
 } from "discord.js";
 
-function formatCycleContents({nextCycleCount, nextCycleEnd}){
+function formatCycleContents({nextCycleCount, nextCycleEnd, isWithActions }){
 
     const nextCycleEndRelativeDiscordString = time(nextCycleEnd.toMillis() / 1000, "R");// `<t:${nextCycleEnd.toMillis() / 1000}:R>`;
     const timeString = time(nextCycleEnd.toJSDate(), "F");
@@ -48,7 +48,8 @@ function formatCycleContents({nextCycleCount, nextCycleEnd}){
            buttonReportCqDone
         );
 
-    return { embeds: [embedResult], components : [row],  ephemeral: false };
+    const renderConfig = { embeds: [embedResult], ephemeral: false, ...(isWithActions) && {components : [row]} };
+    return renderConfig;
 }
 
 module.exports = {

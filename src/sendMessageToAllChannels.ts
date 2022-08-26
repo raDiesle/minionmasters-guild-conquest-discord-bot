@@ -1,5 +1,6 @@
 
-
+// TBD
+/*
 const sendMessageToAllChannels = async () => {
 
 
@@ -34,3 +35,5 @@ guilds.forEach(async (guild) => {
 module.exports = {
     sendMessageToAllChannels
 }
+
+ */

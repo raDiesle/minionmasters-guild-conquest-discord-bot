@@ -22,7 +22,7 @@
   },
   "files": [
     "src/index.ts",
-    "../../AppData/Local/JetBrains/IntelliJIdea2022.1/javascript/typings/jest/28.1.0/node_modules/@types/jest/index.d.ts"
+    "node_modules/@types/jest/build/index.d.ts"
   ],
   "include": [
     "./src/**/*.ts"

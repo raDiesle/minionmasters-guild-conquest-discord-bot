@@ -3,8 +3,8 @@ const { REST } = require('@discordjs/rest');
 const { clientId, guildId, token } = require('../config.json');
 
 const commands = [
-    new SlashCommandBuilder().setName('cqtimer').setDescription('let you show cq and manage to track cq contribution.'),
-    new SlashCommandBuilder().setName('cq').setDescription('Show remaining currency cycle conquest time'),
+    new SlashCommandBuilder().setName('cqtimer').setDescription('Show remaining currency cycle conquest time'),
+    new SlashCommandBuilder().setName('cq').setDescription('let you show cq and manage to track cq contribution.'),
 ]
     .map(command => command.toJSON());
 

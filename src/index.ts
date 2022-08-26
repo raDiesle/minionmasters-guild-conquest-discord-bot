@@ -50,12 +50,12 @@ client.on('interactionCreate', async (interaction : BaseInteraction)  => {
 
     if (interaction.isChatInputCommand()) {
         const { commandName} = interaction as MessageInteraction;
-        if (commandName === 'cqtimer') {
+        if (commandName === 'cq') {
             // {isMessage: true, content: getCycleTimeContentsFn(),  fetchReply: true}
             const response = await interaction.reply(getCycleTimeContentsFn({isWithActions: true}));
             return response;
         }
-        if (commandName === 'cq') {
+        if (commandName === 'cqtimer') {
             const response = await interaction.reply(getCycleTimeContentsFn({isWithActions: false}));
             return response;
         }

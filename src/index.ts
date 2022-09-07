@@ -1,15 +1,18 @@
 import {
-    ActionRowBuilder,
     BaseInteraction,
-    ButtonBuilder,
-    ButtonInteraction, ButtonStyle,
-    EmbedBuilder, MessageActionRowComponentBuilder,
-    MessageInteraction, ModalActionRowComponentBuilder, ModalBuilder, SelectMenuBuilder, SelectMenuInteraction
+    ButtonInteraction,
+    ButtonStyle,
+    GuildMemberRoleManager,
+    MessageInteraction,
+    SelectMenuInteraction
 } from "discord.js";
+
+const {calculateCycleValues : calculateCycleValuesFn} = require("./current-cycle-time/calculate-cycle-values");
 
 const { Client, GatewayIntentBits } = require('discord.js');
 const {getCycleTimeContents : getCycleTimeContentsFn} = require("./current-cycle-time/cycle-time-contents");
 const {reportCq : reportCqFn} = require("./manage/report-cq");
+const {sendMessageToAllChannels : sendMessageToAllChannelsFn} = require("./sendMessageToAllChannels");
 /**
  * If not available from e.g. heroku, its read from .env file instead
  * token of your discord bot. starts with MTA
@@ -21,7 +24,26 @@ if(typeof process.env.token === "undefined"){
 const token = process.env.token;
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds],}); //  allowedMentions: true,
+
+
+const sentenceForRemainingDays = (lastDaysLeft, daysLeft) => {
+    let justResettedNewCycle = lastDaysLeft === 0 && daysLeft === 2;
+    if(justResettedNewCycle){
+        return "A new cycle just started! Tip: Doing it now, will leave you 3 days in harmony."
+    }
+    if(lastDaysLeft === 2 && daysLeft === 1){
+        return "1 day left! Last change to do conquests before the cycle ends."
+    }
+
+    if(lastDaysLeft === 2 && daysLeft === 2){
+        // not executed, yet
+        return "Just 2 days left for cycle end.";
+    }
+
+    return "One day less time for current cycle";
+
+}
 
 // When the client is ready, run this code (only once)
 client.once('ready', async () => {
@@ -32,15 +54,26 @@ client.once('ready', async () => {
         return;
     }
     console.log(`${client.user.username} is online`);
+
+    let lastDaysLeft = undefined;
+    setInterval(async() => {
+        const {isRestarted : [daysLeft]} = calculateCycleValuesFn();
+        console.log(daysLeft + "_" + lastDaysLeft);
+        if(typeof lastDaysLeft === "undefined"){
+            lastDaysLeft = daysLeft;
+            return;
+        }
+        if(daysLeft !== lastDaysLeft){
+            lastDaysLeft = daysLeft;
+            await sendMessageToAllChannelsFn({message: getCycleTimeContentsFn({isWithActions: false, isPingAll:true, description:"Sent automatic: " + sentenceForRemainingDays(lastDaysLeft, daysLeft)}), client});
+        }
+    }, 60*1000);
+
 });
 
 client.on('interactionCreate', async (interaction : BaseInteraction)  => {
 
-
-    console.log("received interactionCreate");
-
     try{
-
         if(interaction.isSelectMenu()){
             const inter = interaction as SelectMenuInteraction;
             // do nothing, yet
@@ -50,13 +83,22 @@ client.on('interactionCreate', async (interaction : BaseInteraction)  => {
 
     if (interaction.isChatInputCommand()) {
         const { commandName} = interaction as MessageInteraction;
-        if (commandName === 'cq') {
+
+        if(["cq", "cqtimer"].includes(commandName)){
+            const roles = interaction.member.roles as GuildMemberRoleManager;
+            const isOfficer = roles.cache.some(r => r.name === "Officer");
+            // interaction.member.permissions.has(PermissionsBitField.Flags.ManageGuild)
+            const isPingAll = isOfficer && interaction.options.getBoolean("pingall");
+            if(!isOfficer && interaction.options.getBoolean("pingall")){
+                const response = await interaction.reply( {content: "Only officers are allowed to ping everyone."});
+                return response;
+            }
+            const description = interaction.options.getString("description");
+
+            const isWithActions = commandName === 'cq';
+
             // {isMessage: true, content: getCycleTimeContentsFn(),  fetchReply: true}
-            const response = await interaction.reply(getCycleTimeContentsFn({isWithActions: true}));
-            return response;
-        }
-        if (commandName === 'cqtimer') {
-            const response = await interaction.reply(getCycleTimeContentsFn({isWithActions: false}));
+            const response = await interaction.reply(getCycleTimeContentsFn({isWithActions, isPingAll, description}));
             return response;
         }
     }

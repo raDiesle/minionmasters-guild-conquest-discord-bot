@@ -22,13 +22,14 @@ function formatCycleContents({nextCycleCount, nextCycleEnd, isWithActions, isPin
     //    .setEmoji('123456789012345678')
     ;
 
-    const everyoneMessage = isPingAll ? "@everyone cycle ends " : "";
+
     const embedResultStatic = new EmbedBuilder()
         .setColor(0x0099FF)
         .setTitle(`Conquest Cycle ${bold(nextCycleCount)}`)
         //.setURL('https://discord.js.org/')
         //.setAuthor({ name: 'Some name', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
-        .setDescription(`🛎️ ${everyoneMessage} ${result}  🛎️ `)
+
+        .setDescription(`🛎️ ${result}  🛎️ `)
         // .setTimestamp()
         // .setFooter({ text: 'Keep Bridge Baddies great!'});
 
@@ -39,7 +40,9 @@ function formatCycleContents({nextCycleCount, nextCycleEnd, isWithActions, isPin
            buttonReportCqDone
         );
 
-    const renderConfig = { embeds: [embedResult], ephemeral: false, ...(isWithActions) && {components : [row]},  allowedMentions : { parse: ['users', 'roles', 'everyone'] } };
+    const everyoneNoticeMention = isPingAll ? `@everyone ` : "" ;
+
+    const renderConfig = { content: everyoneNoticeMention, embeds: [embedResult], ephemeral: false, ...(isWithActions) && {components : [row]},  allowedMentions : { parse: ['users', 'roles', 'everyone'] }, mentionable: true,  repliedUser: true };
     return renderConfig;
 }
 

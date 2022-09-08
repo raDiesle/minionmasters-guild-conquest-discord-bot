@@ -1,7 +1,7 @@
 
 const {DateTime} = require("luxon");
 
-const startOfASeason  =  DateTime.utc(2022, 8, 4, 8,0,0); // was 7 hours in webapp
+const startOfASeason  =  DateTime.utc(2022, 8, 5, 8,0,0); // was 7 hours in webapp
 
 function nextOccurenceFn (nextOccurence) {
     const CYCLE_DURATION = {days: 3};
@@ -11,7 +11,7 @@ function nextOccurenceFn (nextOccurence) {
 function getCurrentCycle() {
     const NOW = DateTime.utc();
     let currentCycleStartTime = nextOccurenceFn(startOfASeason);
-    let countOfCycle = 31;
+    let countOfCycle = 23;
     while (NOW.diff(currentCycleStartTime, 'days').days > 3) {
         countOfCycle++;
         currentCycleStartTime = nextOccurenceFn(currentCycleStartTime);

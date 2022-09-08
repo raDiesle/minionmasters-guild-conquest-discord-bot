@@ -24,7 +24,7 @@ if(typeof process.env.token === "undefined"){
 const token = process.env.token;
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds],}); //  allowedMentions: true,
+const client = new Client({ intents: [GatewayIntentBits.Guilds], allowedMentions: { parse: ['users', 'roles'], repliedUser: true }}); //  allowedMentions: true,
 
 
 const sentenceForRemainingDays = (lastDaysLeft, daysLeft) => {
@@ -42,7 +42,6 @@ const sentenceForRemainingDays = (lastDaysLeft, daysLeft) => {
     }
 
     return "One day less time for current cycle";
-
 }
 
 // When the client is ready, run this code (only once)
@@ -85,6 +84,7 @@ client.on('interactionCreate', async (interaction : BaseInteraction)  => {
         const { commandName} = interaction as MessageInteraction;
 
         if(["cq", "cqtimer"].includes(commandName)){
+
             const roles = interaction.member.roles as GuildMemberRoleManager;
             const isOfficer = roles.cache.some(r => r.name === "Officer");
             // interaction.member.permissions.has(PermissionsBitField.Flags.ManageGuild)
@@ -95,7 +95,7 @@ client.on('interactionCreate', async (interaction : BaseInteraction)  => {
             }
             const description = interaction.options.getString("description");
 
-            const isWithActions = commandName === 'cq';
+            const isWithActions = commandName === 'cqtimer';
 
             // {isMessage: true, content: getCycleTimeContentsFn(),  fetchReply: true}
             const response = await interaction.reply(getCycleTimeContentsFn({isWithActions, isPingAll, description}));

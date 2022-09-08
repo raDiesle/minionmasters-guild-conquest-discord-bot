@@ -36,12 +36,12 @@ const sentenceForRemainingDays = (lastDaysLeft, daysLeft) => {
         return "1 day left! Last change to do conquests before the cycle ends."
     }
 
-    if(lastDaysLeft === 2 && daysLeft === 2){
-        // not executed, yet
-        return "Just 2 days left for cycle end.";
-    }
+    // if(lastDaysLeft === 2 && daysLeft === 2){
+    //     // not executed, yet
+    //     return "Just 2 days left for cycle end.";
+    // }
 
-    return "One day less time for current cycle";
+    return undefined;
 }
 
 // When the client is ready, run this code (only once)
@@ -64,9 +64,15 @@ client.once('ready', async () => {
         }
         if(daysLeft !== lastDaysLeft){
             lastDaysLeft = daysLeft;
-            await sendMessageToAllChannelsFn({message: getCycleTimeContentsFn({isWithActions: false, isPingAll:true, description:"Sent automatic: " + sentenceForRemainingDays(lastDaysLeft, daysLeft)}), client});
+            const automaticMessageOfRemainingTime = sentenceForRemainingDays(lastDaysLeft, daysLeft);
+            if(typeof automaticMessageOfRemainingTime !== undefined){
+                await sendMessageToAllChannelsFn({message: getCycleTimeContentsFn({isWithActions: false, isPingAll:true, description:"Sent automatic: " + automaticMessageOfRemainingTime}), client});
+
+            }else{
+                console.log(`would send for: daysLeft: ${daysLeft}, lastDaysLeft: ${lastDaysLeft}`);
+            }
         }
-    }, 60*1000);
+    }, 60*10000);
 
 });
 

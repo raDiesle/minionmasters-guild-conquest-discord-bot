@@ -1,3 +1,4 @@
+import {time} from "discord.js";
 
 const {DateTime} = require("luxon");
 
@@ -29,8 +30,9 @@ function calculateCycleValues  () {
     const nextCycleEnd = nextOccurenceFn(currentCycleStartTime);
 
 
-    const timeLeft = NOW.diff(nextCycleEnd);
-    const isRestarted = [timeLeft.days, timeLeft.hours, timeLeft.minutes];
+    const timeLeft = NOW.diff(nextCycleEnd, ['days', 'hours', 'minutes']);
+    const timeLeftObject = timeLeft.toObject();
+    const isRestarted = [timeLeftObject.days * -1, timeLeftObject.hours * -1, timeLeftObject.minutes * -1];
 
     return {isRestarted,nextCycleCount, nextCycleEnd};
 };

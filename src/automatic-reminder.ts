@@ -5,7 +5,7 @@ const {getCycleTimeContents : getCycleTimeContentsFn} = require("./current-cycle
 const {sendMessageToAllChannels : sendMessageToAllChannelsFn} = require("./sendMessageToAllChannels");
 
 const sentenceForRemainingDays = (lastDaysLeft, daysLeft) => {
-    let justResettedNewCycle = lastDaysLeft === 0 && daysLeft === 2;
+    const justResettedNewCycle = lastDaysLeft === 0 && daysLeft === 2;
     if(justResettedNewCycle){
         return "A new cycle just started! Tip: Doing it now, will leave you 3 days in harmony."
     }
@@ -18,7 +18,7 @@ const sentenceForRemainingDays = (lastDaysLeft, daysLeft) => {
     //     return "Just 2 days left for cycle end.";
     // }
 
-    return undefined;
+    return null;
 }
 
 
@@ -31,9 +31,9 @@ async function automaticReminder (lastDaysLeft, client) {
         if(daysLeft !== lastDaysLeft){
             lastDaysLeft = daysLeft;
             const automaticMessageOfRemainingTime = sentenceForRemainingDays(lastDaysLeft, daysLeft);
-            if(typeof automaticMessageOfRemainingTime !== undefined){
-                await sendMessageToAllChannelsFn({message: getCycleTimeContentsFn({isWithActions: false, isPingAll:true, description:"Sent automatic: " + automaticMessageOfRemainingTime}), client});
-
+            if(automaticMessageOfRemainingTime !== null){
+                const messageAutomatic = getCycleTimeContentsFn({isWithActions: false, isPingAll:true, description:`Sent automatic: ${automaticMessageOfRemainingTime}`});
+                await sendMessageToAllChannelsFn({message: messageAutomatic, client});
             }else{
                 console.log(`would send for: daysLeft: ${daysLeft}, lastDaysLeft: ${lastDaysLeft}`);
             }

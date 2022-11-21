@@ -1,8 +1,8 @@
 
 const {DateTime} = require("luxon");
 
-// 2022, 0, 26, 8,0,0,0
-const startOfASeason  =  DateTime.utc(2022, 10, 8, 9,0,0,0); // was 7 hours in webapp
+// 2022, 0, 26, 8,0,0,0   need to reduce hour by 1
+const startOfASeason  =  DateTime.utc(2022, 10, 8, 8,0,0,0); // was 7 hours in webapp
 
 function nextOccurenceFn (nextOccurence) {
     const CYCLE_DURATION = {days: 3};

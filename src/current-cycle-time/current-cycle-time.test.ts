@@ -3,5 +3,5 @@ const {calculateCycleValues: calculateEndTimeFn} = require("./calculate-cycle-va
 
 test('countdown', () => {
     const result = calculateEndTimeFn();
-    console.info(result.result);
+    console.info(JSON.stringify(result));
 });
